@@ -9,9 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "#0D71C9",
+        gray: "#0216260A",
+        gray_border: "#0216261F"
       },
+      fontFamily: {
+        garamond: ['"EB Garamond"', 'serif'],
+        grotesk: ['"Host Grotesk"', 'sans-serif'],
+      }
     },
   },
   plugins: [],
