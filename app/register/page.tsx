@@ -4,7 +4,7 @@ import React from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { z } from "zod"
-import { useStore } from "../store/store"
+import { useInputStore } from "../store/store"
 
 const schema = z.object({
     firstName: z.string().min(2, "First name is required"),
@@ -12,7 +12,7 @@ const schema = z.object({
 })
 
 const Register = () => {
-    const { firstName, lastName, updateFirstName, updateLastName } = useStore()
+    const { firstName, lastName, updateFirstName, updateLastName } = useInputStore()
     const [errors, setErrors] = React.useState<{ firstName?: string; lastName?: string }>({})
     const router = useRouter()
     
@@ -35,10 +35,10 @@ const Register = () => {
             <div className='flex flex-col items-center justify-center pt-[59px]'>
                 <Image src='/logo.svg' alt='logo' width={80} height={80} />
                 <div className='flex flex-row items-center justify-center p-2 gap-2'>
-                    <div className='w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
+                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
                         1
                     </div>
-                    <div className='w-8 h-8 rounded-full flex items-center justify-center border text-white bg-gray p-2'>
+                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-gray p-2'>
                         2
                     </div>
                 </div>
