@@ -8,8 +8,11 @@ import { z } from "zod"
 import Link from "next/link"
 
 const schema = z.object({
-    phoneNumber: z.string().min(10, "Phone number needs to be valid").max(14, "Phone number needs to be valid"),
-});
+    phoneNumber: z
+        .string()
+        .min(10, "Phone number needs to be valid")
+        .max(14, "Phone number needs to be valid"),
+})
 
 const Phone = () => {
     const { countryCode, phoneNumber, updateCountryCode, updatePhoneNumber } = usePhoneStore()
@@ -27,35 +30,52 @@ const Phone = () => {
         const result = schema.safeParse({ phoneNumber })
 
         if (!result.success) {
-            const resultErrors = result.error.format();
+            const resultErrors = result.error.format()
             setErrors({
                 phoneNumber: resultErrors.phoneNumber?._errors[0],
             })
         } else {
-            setErrors({});
+            setErrors({})
         }
     }
 
     return (
         <>
-            <div className='flex flex-col items-center justify-center pt-[59px]'>
-                <Image src='/logo.svg' alt='logo' width={80} height={80} />
-                <div className='flex flex-row items-center justify-center p-2 gap-2'>
-                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
-                        1
-                    </div>
-                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
-                        2
+             <div className='relative w-full'>
+                <div className='absolute left-4 top-[100px]'>
+                    <Link href='/'>
+                        <Image
+                            src='/arrow.svg'
+                            alt='Back'
+                            width={16}
+                            height={16}
+                            className='cursor-pointer'
+                        />
+                    </Link>
+             </div>
+                <div className='flex flex-col items-center justify-center pt-[59px]'>
+                    <Image src='/logo.svg' alt='logo' width={80} height={80} />
+                    <div className='flex flex-row items-center justify-center p-2 gap-2'>
+                        <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
+                            1
+                        </div>
+                        <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-gray p-2'>
+                            2
+                        </div>
                     </div>
                 </div>
             </div>
-             <div className='p-6'>
+            <div className='p-6'>
                 <p className='font-garamond text-2xl text-left font-bold mb-4'>
                     Lets validate your number:
                 </p>
-                 <div className='flex gap-2'>
+                <div className='flex gap-2'>
                     <select
-                        className={`${errors.phoneNumber ? "w-2/5 p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 ": "w-2/5 p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"}`}
+                        className={`${
+                            errors.phoneNumber
+                                ? "w-2/5 p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 "
+                                : "w-2/5 p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"
+                        }`}
                         value={countryCode}
                         onChange={changeCountryCode}
                         name='countryCode'
@@ -71,13 +91,25 @@ const Phone = () => {
                         type='tel'
                         value={phoneNumber}
                         onChange={changePhoneNumber}
-                        className={`${errors.phoneNumber ? "w-full p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 ": "w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"}`}
+                        className={`${
+                            errors.phoneNumber
+                                ? "w-full p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 "
+                                : "w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"
+                        }`}
                     />
-                  </div>
-                  {errors && (
-                    <p className='text-red-500 text-sm mb-2'>{errors.phoneNumber}</p> )}
-                  <span className="font-grotesk text-sm mt-4">By clicking ‘Continue’ you confirm that you agree to our
-                  <Link href="/" className="text-primary"> terms and conditions</Link> and <Link href="/" className="text-primary">privacy policy</Link></span>
+                </div>
+                {errors && <p className='text-red-500 text-sm mb-2'>{errors.phoneNumber}</p>}
+                <span className='font-grotesk text-sm mt-4'>
+                    By clicking ‘Continue’ you confirm that you agree to our
+                    <Link href='/' className='text-primary'>
+                        {" "}
+                        terms and conditions
+                    </Link>{" "}
+                    and{" "}
+                    <Link href='/' className='text-primary'>
+                        privacy policy
+                    </Link>
+                </span>
                 <button
                     disabled={!phoneNumber}
                     onClick={handleClick}
