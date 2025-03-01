@@ -7,8 +7,8 @@ import { z } from "zod"
 import { useInputStore } from "../store/store"
 
 const schema = z.object({
-    firstName: z.string().min(2, "First name is required"),
-    lastName: z.string().min(2, "Last name is required"),
+    firstName: z.string().min(2, "Please enter a first name").regex(/^[a-zA-Z\s]*$/, "First name should not contain special characters or numbers"),
+    lastName: z.string().min(2, "Please enter a last name").regex(/^[a-zA-Z\s]*$/, "Last name should not contain special characters or numbers"),
 })
 
 const Register = () => {
@@ -47,30 +47,30 @@ const Register = () => {
                 <p className='font-garamond text-2xl text-left font-bold mb-2'>
                     Registration details:
                 </p>
-                <p className='text-sm mb-1 text-black'>First name:</p>
+                <p className='text-sm mb-1 font-grotesk text-black'>First name:</p>
                 <input
                     value={firstName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         updateFirstName(e?.target.value)
                     }
                     type='text'
-                    className='w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2'
+                    className={`${errors.firstName ? "w-full p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 ": "w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"}`}
                     placeholder='Your first name'
                 />
-                {errors && (
-                    <p className='text-red-500 text-sm mb-2'>{errors.firstName}</p>
-                )}
-                <p className='text-sm mb-1 text-black'>Last name:</p>
+                {errors.firstName && <div className="flex"><Image src='/validation.svg' alt='logo' className="mb-2 mr-1" width={16} height={16} /> <p className='text-red-500 text-sm mb-2'>
+                {errors.firstName}</p></div>}
+                <p className='text-sm mb-1 font-grotesk text-black'>Last name:</p>
                 <input
                     value={lastName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         updateLastName(e.target.value)
                     }
                     type='text'
-                    className='w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2'
+                    className={`${errors.lastName ? "w-full p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 ": "w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"}`}
                     placeholder='Your last name'
                 />
-                {errors.lastName && <p className='text-red-500 text-sm mb-2'>{errors.lastName}</p>}
+                {errors.lastName && <div className="flex"><Image src='/validation.svg' alt='logo' className="mb-2 mr-1" width={16} height={16} /> <p className='text-red-500 text-sm mb-2'>
+                    {errors.lastName}</p></div>}
                 <button
                     disabled={!firstName || !lastName}
                     onClick={handleClick}
@@ -78,7 +78,7 @@ const Register = () => {
                 >
                     Continue
                 </button>
-                <p className='flex justify-center items-center font-grotesk text-xl text-primary font-bold'>
+                <p className='flex justify-center items-center font-grotesk text-l text-primary font-bold'>
                     Already have an account?
                 </p>
             </div>
