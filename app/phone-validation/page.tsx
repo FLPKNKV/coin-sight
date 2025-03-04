@@ -6,7 +6,7 @@ import { usePhoneStore } from "../store/store"
 import { countries } from "countries-list"
 import { z } from "zod"
 import Link from "next/link"
-
+import { useRouter } from "next/navigation"
 const schema = z.object({
     phoneNumber: z
         .string()
@@ -15,6 +15,7 @@ const schema = z.object({
 })
 
 const Phone = () => {
+    const router = useRouter();
     const { countryCode, phoneNumber, updateCountryCode, updatePhoneNumber } = usePhoneStore()
     const [errors, setErrors] = React.useState<{ phoneNumber?: string }>({})
 
@@ -36,6 +37,7 @@ const Phone = () => {
             })
         } else {
             setErrors({})
+            router.push("/success")
         }
     }
 
