@@ -61,7 +61,7 @@ const Phone = () => {
                     </div>
                 </div>
             </div>
-            <div className='p-6 md:w-1/4 md:flex md:flex-col md:m-auto'>
+            <div className='animate-fadeInSlide p-6 md:w-1/4 md:flex md:flex-col md:m-auto'>
                 <p className='font-garamond text-2xl text-left font-bold mb-4'>
                     Lets validate your number:
                 </p>
