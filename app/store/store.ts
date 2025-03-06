@@ -1,34 +1,16 @@
 import { create } from "zustand";
+import { User } from "../types/user-interface";
+import { Phone } from "../types/phone-interface";
+import { inputAction, phoneAction } from "./actions";
 
-type inputState = {
-    firstName: string,
-    lastName: string,
-}
-
-type phoneState = {
-    countryCode: string,
-    phoneNumber: string,
-}
-
-type inputAction = {
-    updateFirstName: (firstName: inputState['firstName']) => void,
-    updateLastName: (lastName: inputState['lastName']) => void,
-}
-
-type phoneAction = {
-    updateCountryCode: (countryCode: phoneState['countryCode']) => void,
-    updatePhoneNumber: (phoneNumber: phoneState['phoneNumber']) => void
-}
-
-
-export const useInputStore = create<inputState & inputAction>((set) => ({
+export const useInputStore = create<User & inputAction>((set) => ({
     firstName: '',
     lastName: '',
     updateFirstName: (firstName) => set({ firstName }),
     updateLastName: (lastName) => set({ lastName }),
 }));
 
-export const usePhoneStore = create<phoneState & phoneAction>((set) => ({
+export const usePhoneStore = create<Phone & phoneAction>((set) => ({
     countryCode: 'US',
     phoneNumber: '',
     updateCountryCode: (countryCode) => set({ countryCode }),
