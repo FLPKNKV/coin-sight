@@ -6,7 +6,7 @@ import { usePhoneStore } from "../store/store"
 import { countries } from "countries-list"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { phoneValidationSchema } from "../lib/validation"
+import { phoneValidationSchema } from "../utils/validation"
 
 const Phone = () => {
     const router = useRouter();
