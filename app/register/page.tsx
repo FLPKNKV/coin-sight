@@ -3,13 +3,9 @@
 import React from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { z } from "zod"
+import { nameValidationSchema } from "../lib/validation"
 import { useInputStore } from "../store/store"
 
-const schema = z.object({
-    firstName: z.string().min(2, "Please enter a first name").regex(/^[a-zA-Z\s]*$/, "First name should not contain special characters or numbers"),
-    lastName: z.string().min(2, "Please enter a last name").regex(/^[a-zA-Z\s]*$/, "Last name should not contain special characters or numbers"),
-})
 
 const Register = () => {
     const { firstName, lastName, updateFirstName, updateLastName } = useInputStore()
@@ -17,7 +13,7 @@ const Register = () => {
     const router = useRouter()
     
     const handleClick = () => {
-        const result = schema.safeParse({ firstName, lastName })
+        const result = nameValidationSchema.safeParse({ firstName, lastName })
 
         if (!result.success) {
             const resultErrors = result.error.format()

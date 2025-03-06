@@ -4,15 +4,9 @@ import React from "react"
 import Image from "next/image"
 import { usePhoneStore } from "../store/store"
 import { countries } from "countries-list"
-import { z } from "zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-const schema = z.object({
-    phoneNumber: z
-        .string()
-        .min(10, "Phone number needs to be valid")
-        .max(14, "Phone number needs to be valid"),
-})
+import { phoneValidationSchema } from "../lib/validation"
 
 const Phone = () => {
     const router = useRouter();
@@ -28,7 +22,7 @@ const Phone = () => {
     }
 
     const handleClick = () => {
-        const result = schema.safeParse({ phoneNumber })
+        const result = phoneValidationSchema.safeParse({ phoneNumber })
 
         if (!result.success) {
             const resultErrors = result.error.format()
