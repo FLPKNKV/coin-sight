@@ -82,6 +82,7 @@ const Phone = () => {
                         value={phoneNumber}
                         onChange={(e)=>updatePhoneNumber(e?.target.value)}
                         placeholder='Your phone number'
+                        error={errors.phoneNumber}
                     />
                 </div>
                 {errors && <p className='text-red-500 text-sm mb-2'>{errors.phoneNumber}</p>}

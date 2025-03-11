@@ -4,7 +4,6 @@ interface ButtonProps {
     disabled: boolean,
     onClick: () => void,
     children: React.ReactNode
-
 }
 
 const Button = ({disabled, onClick, children}:ButtonProps) => {
