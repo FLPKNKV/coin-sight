@@ -3,15 +3,16 @@
 import React from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { nameValidationSchema } from "../utils/validation"
+import { nameValidationSchema } from "../schemas/nameSchema"
 import { useInputStore } from "../store/store"
-
+import TextInput from "../components/TextInput"
+import Button from "../components/Button"
 
 const Register = () => {
     const { firstName, lastName, updateFirstName, updateLastName } = useInputStore()
     const [errors, setErrors] = React.useState<{ firstName?: string; lastName?: string }>({})
     const router = useRouter()
-    
+
     const handleClick = () => {
         const result = nameValidationSchema.safeParse({ firstName, lastName })
 
@@ -44,36 +45,51 @@ const Register = () => {
                     Registration details:
                 </p>
                 <p className='text-sm mb-1 font-grotesk text-black'>First name:</p>
-                <input
+                <TextInput
                     value={firstName}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        updateFirstName(e?.target.value)
-                    }
+                    onChange={(e) => updateFirstName(e.target.value)}
                     type='text'
-                    className={`${errors.firstName ? "w-full p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 ": "w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"}`}
-                    placeholder='Your first name'
+                    error={errors.firstName}
+                    placeholder='Your First Name'
                 />
-                {errors.firstName && <div className="flex"><Image src='/validation.svg' alt='logo' className="mb-2 mr-1" width={16} height={16} /> <p className='text-red-500 text-sm mb-2'>
-                {errors.firstName}</p></div>}
+                {errors.firstName && (
+                    <div className='flex'>
+                        <Image
+                            src='/validation.svg'
+                            alt='logo'
+                            className='mb-2 mr-1'
+                            width={16}
+                            height={16}
+                        />{" "}
+                        <p className='text-red-500 text-sm mb-2'>{errors.firstName}</p>
+                    </div>
+                )}
                 <p className='text-sm mb-1 font-grotesk text-black'>Last name:</p>
-                <input
+                <TextInput
                     value={lastName}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        updateLastName(e.target.value)
-                    }
+                    onChange={(e) => updateLastName(e?.target.value)}
                     type='text'
-                    className={`${errors.lastName ? "w-full p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 ": "w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"}`}
-                    placeholder='Your last name'
+                    error={errors.lastName}
+                    placeholder='Your First Name'
                 />
-                {errors.lastName && <div className="flex"><Image src='/validation.svg' alt='logo' className="mb-2 mr-1" width={16} height={16} /> <p className='text-red-500 text-sm mb-2'>
-                    {errors.lastName}</p></div>}
-                <button
+                {errors.lastName && (
+                    <div className='flex'>
+                        <Image
+                            src='/validation.svg'
+                            alt='logo'
+                            className='mb-2 mr-1'
+                            width={16}
+                            height={16}
+                        />{" "}
+                        <p className='text-red-500 text-sm mb-2'>{errors.lastName}</p>
+                    </div>
+                )}
+                <Button
                     disabled={!firstName || !lastName}
                     onClick={handleClick}
-                    className={`${!firstName || !lastName ? 'w-full bg-red-200 font-grotesk font-bold cursor-not-allowed text-white p-4 rounded-full mt-4 mb-4' : 'w-full bg-primary font-grotesk font-bold text-white p-4 rounded-full mt-4 mb-4' }` }
                 >
                     Continue
-                </button>
+                </Button>
                 <p className='flex justify-center items-center font-grotesk text-l text-primary font-bold'>
                     Already have an account?
                 </p>

@@ -6,20 +6,14 @@ import { usePhoneStore } from "../store/store"
 import { countries } from "countries-list"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { phoneValidationSchema } from "../utils/validation"
+import { phoneValidationSchema } from "../schemas/phoneSchema"
+import Button from "../components/Button"
+import TextInput from "../components/TextInput"
 
 const Phone = () => {
-    const router = useRouter();
+    const router = useRouter()
     const { countryCode, phoneNumber, updateCountryCode, updatePhoneNumber } = usePhoneStore()
     const [errors, setErrors] = React.useState<{ phoneNumber?: string }>({})
-
-    const changeCountryCode = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        updateCountryCode(e.target.value)
-    }
-
-    const changePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-        updatePhoneNumber(e.target.value)
-    }
 
     const handleClick = () => {
         const result = phoneValidationSchema.safeParse({ phoneNumber })
@@ -37,7 +31,7 @@ const Phone = () => {
 
     return (
         <>
-             <div className='relative w-full'>
+            <div className='relative w-full'>
                 <div className='absolute left-4 top-[100px]'>
                     <Link href='/'>
                         <Image
@@ -48,7 +42,7 @@ const Phone = () => {
                             className='cursor-pointer'
                         />
                     </Link>
-             </div>
+                </div>
                 <div className='flex flex-col items-center justify-center pt-[59px]'>
                     <Image src='/logo.svg' alt='logo' width={80} height={80} />
                     <div className='flex flex-row items-center justify-center p-2 gap-2'>
@@ -73,7 +67,7 @@ const Phone = () => {
                                 : "w-2/5 p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"
                         }`}
                         value={countryCode}
-                        onChange={changeCountryCode}
+                        onChange={(e)=>updateCountryCode(e?.target.value)}
                         name='countryCode'
                         id=''
                     >
@@ -83,15 +77,11 @@ const Phone = () => {
                             </option>
                         ))}
                     </select>
-                    <input
+                    <TextInput
                         type='tel'
                         value={phoneNumber}
-                        onChange={changePhoneNumber}
-                        className={`${
-                            errors.phoneNumber
-                                ? "w-full p-4 border-gray_border focus:outline-none border-red-400 cursor-pointer border-2 rounded-full mb-2 "
-                                : "w-full p-4 border-gray_border focus:outline-none focus:ring-2 focus:border-primary cursor-pointer border-2 rounded-full mb-2"
-                        }`}
+                        onChange={(e)=>updatePhoneNumber(e?.target.value)}
+                        placeholder='Your phone number'
                     />
                 </div>
                 {errors && <p className='text-red-500 text-sm mb-2'>{errors.phoneNumber}</p>}
@@ -106,17 +96,9 @@ const Phone = () => {
                         privacy policy
                     </Link>
                 </span>
-                <button
-                    disabled={!phoneNumber}
-                    onClick={handleClick}
-                    className={`${
-                        !phoneNumber
-                            ? "w-full bg-red-200 font-grotesk font-bold cursor-not-allowed text-white p-4 rounded-full mt-4 mb-4"
-                            : "w-full bg-primary font-grotesk font-bold text-white p-4 rounded-full mt-4 mb-4"
-                    }`}
-                >
+                <Button disabled={!phoneNumber} onClick={handleClick}>
                     Continue
-                </button>
+                </Button>
             </div>
         </>
     )
