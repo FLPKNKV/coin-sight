@@ -24,7 +24,7 @@ const Register = () => {
             })
         } else {
             setErrors({})
-            router.push("/phone-validation")
+            router.push("/phone")
         }
     }
     return (
