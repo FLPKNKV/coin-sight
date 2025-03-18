@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface TextInputProps {
-    value:string,
+    value?:string,
     onChange: (value: React.ChangeEvent<HTMLInputElement>) => void
     type: string,
     placeholder: string,
