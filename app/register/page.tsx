@@ -3,7 +3,7 @@
 import React from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { userDetailValidationSchema } from "../schemas/nameSchema"
+import { userDetailValidationSchema } from "../schemas/userDetailSchema"
 import { useInputStore } from "../store/store"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
