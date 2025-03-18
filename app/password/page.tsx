@@ -4,10 +4,30 @@ import React from "react"
 import Image from "next/image"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
+import { useRouter } from "next/navigation"
 import { useInputStore } from "../store/store"
+import { userDetailValidationSchema } from "../schemas/userDetailSchema"
 
 const Password = () => {
+    const router = useRouter();
     const { password, updatePassword, repeatPassword, updateRepeatPassword } = useInputStore();
+    const [errors, setErrors] = React.useState<{ password?: string; repeatPassword?: string }>({});
+
+    const handleClick = () => {
+        const result = userDetailValidationSchema.safeParse({ password, repeatPassword });
+
+        if(!result.success){
+            const resultErrors = result.error.format()
+            setErrors({
+                password: resultErrors.password?._errors[0],
+                repeatPassword: resultErrors.confirmPassword?._errors[0]
+            })
+        }
+        else {
+            setErrors({})
+            router.push("/success")
+        }
+    }
     return (
         <>
             <div className='flex flex-col items-center justify-center pt-[59px]'>
@@ -30,8 +50,8 @@ const Password = () => {
                     value={password}
                     onChange={(e) => updatePassword(e?.target.value)}
                     type='text'
-                    error=""
-                    placeholder='Your Last Name'
+                    error={errors.password}
+                    placeholder='Your Password'
                 />
                
                 <p className='text-sm mb-1 font-grotesk text-black'>Repeat Password:</p>
@@ -39,10 +59,12 @@ const Password = () => {
                     value={repeatPassword}
                     onChange={(e) => updateRepeatPassword(e?.target.value)}
                     type='text'
-                    error=""
-                    placeholder='Your Last Name'
+                    error={errors.repeatPassword}
+                    placeholder='Repeat your password'
                 />
+                <Button onClick={handleClick} disabled={!password || !repeatPassword}>Register</Button>
             </div>
+           
         </>
     )
 }
