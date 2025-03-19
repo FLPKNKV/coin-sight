@@ -6,28 +6,28 @@ import TextInput from "../components/TextInput"
 import Button from "../components/Button"
 import { useRouter } from "next/navigation"
 import { useInputStore } from "../store/store"
-import { userDetailValidationSchema } from "../schemas/userDetailSchema"
+import { userPasswordValidationSchema } from "../schemas/userDetailSchema"
 
 const Password = () => {
-    const router = useRouter();
-    const { password, updatePassword, repeatPassword, updateRepeatPassword } = useInputStore();
-    const [errors, setErrors] = React.useState<{ password?: string; repeatPassword?: string }>({});
+    const router = useRouter()
+    const { password, updatePassword, repeatPassword, updateRepeatPassword } = useInputStore()
+    const [errors, setErrors] = React.useState<{ password?: string; repeatPassword?: string }>({})
 
     const handleClick = () => {
-        const result = userDetailValidationSchema.safeParse({ password, repeatPassword });
+        const result = userPasswordValidationSchema.safeParse({ password, repeatPassword })
 
-        if(!result.success){
+        if (!result.success) {
             const resultErrors = result.error.format()
             setErrors({
                 password: resultErrors.password?._errors[0],
-                repeatPassword: resultErrors.confirmPassword?._errors[0]
+                repeatPassword: resultErrors.repeatPassword?._errors[0],
             })
-        }
-        else {
+        } else {
             setErrors({})
             router.push("/success")
         }
     }
+
     return (
         <>
             <div className='flex flex-col items-center justify-center pt-[59px]'>
@@ -53,7 +53,18 @@ const Password = () => {
                     error={errors.password}
                     placeholder='Your Password'
                 />
-               
+                {errors.password && (
+                    <div className='flex'>
+                        <Image
+                            src='/validation.svg'
+                            alt='logo'
+                            className='mb-2 mr-1'
+                            width={16}
+                            height={16}
+                        />{" "}
+                        <p className='text-red-500 text-sm mb-2'>{errors.password}</p>
+                    </div>
+                )}
                 <p className='text-sm mb-1 font-grotesk text-black'>Repeat Password:</p>
                 <TextInput
                     value={repeatPassword}
@@ -62,11 +73,24 @@ const Password = () => {
                     error={errors.repeatPassword}
                     placeholder='Repeat your password'
                 />
-                <Button onClick={handleClick} disabled={!password || !repeatPassword}>Register</Button>
+                {errors.repeatPassword && (
+                    <div className='flex'>
+                        <Image
+                            src='/validation.svg'
+                            alt='logo'
+                            className='mb-2 mr-1'
+                            width={16}
+                            height={16}
+                        />{" "}
+                        <p className='text-red-500 text-sm mb-2'>{errors.repeatPassword}</p>
+                    </div>
+                )}
+                <Button onClick={handleClick} disabled={!password || !repeatPassword}>
+                    Register
+                </Button>
             </div>
-           
         </>
     )
 }
 
-export default Password;
+export default Password
