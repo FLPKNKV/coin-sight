@@ -5,16 +5,28 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { userDetailValidationSchema } from "../schemas/userDetailSchema"
 import { useInputStore } from "../store/store"
+import axios from "axios"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
 
 const Register = () => {
-    const { firstName, lastName, emailAddress, updateEmailAddress, updateFirstName, updateLastName } = useInputStore();
+    const {
+        firstName,
+        lastName,
+        emailAddress,
+        updateEmailAddress,
+        updateFirstName,
+        updateLastName,
+    } = useInputStore()
 
-    const [errors, setErrors] = React.useState<{ firstName?: string; lastName?: string, emailAddress?: string }>({})
+    const [errors, setErrors] = React.useState<{
+        firstName?: string
+        lastName?: string
+        emailAddress?: string
+    }>({})
     const router = useRouter()
 
-    const handleClick = () => {
+    const handleClick = async () => {
         const result = userDetailValidationSchema.safeParse({ firstName, lastName, emailAddress })
 
         if (!result.success) {
@@ -22,11 +34,20 @@ const Register = () => {
             setErrors({
                 firstName: resultErrors.firstName?._errors[0],
                 lastName: resultErrors.lastName?._errors[0],
-                emailAddress: resultErrors.emailAddress?._errors[0]
+                emailAddress: resultErrors.emailAddress?._errors[0],
             })
         } else {
             setErrors({})
-            router.push("/password")
+            try {
+                await axios.put("/api/register", {
+                    firstName,
+                    lastName,
+                    emailAddress,
+                })
+                router.push("/password")
+            } catch (error) {
+                console.log("Registration failed", error)
+            }
         }
     }
     return (
@@ -106,10 +127,7 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.emailAddress}</p>
                     </div>
                 )}
-                <Button
-                    disabled={!firstName || !lastName || !emailAddress}
-                    onClick={handleClick}
-                >
+                <Button disabled={!firstName || !lastName || !emailAddress} onClick={handleClick}>
                     Continue
                 </Button>
                 <p className='flex justify-center items-center font-grotesk text-l text-primary font-bold'>
