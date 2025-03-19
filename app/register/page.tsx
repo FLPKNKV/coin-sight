@@ -39,7 +39,7 @@ const Register = () => {
         } else {
             setErrors({})
             try {
-                await axios.put("/api/register", {
+                await axios.post("/api/register", {
                     firstName,
                     lastName,
                     emailAddress,
@@ -112,7 +112,7 @@ const Register = () => {
                     value={emailAddress}
                     onChange={(e) => updateEmailAddress(e?.target.value)}
                     type='text'
-                    error={errors.lastName}
+                    error={errors.emailAddress}
                     placeholder='Your Email Address'
                 />
                 {errors.emailAddress && (
