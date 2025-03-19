@@ -26,7 +26,7 @@ const Register = () => {
             })
         } else {
             setErrors({})
-            router.push("/success")
+            router.push("/password")
         }
     }
     return (
