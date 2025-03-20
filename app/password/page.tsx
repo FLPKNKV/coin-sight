@@ -7,13 +7,14 @@ import Button from "../components/Button"
 import { useRouter } from "next/navigation"
 import { useInputStore } from "../store/store"
 import { userPasswordValidationSchema } from "../schemas/userDetailSchema"
+import axios from "axios"
 
 const Password = () => {
     const router = useRouter()
-    const { password, updatePassword, repeatPassword, updateRepeatPassword } = useInputStore()
+    const { emailAddress, password, updatePassword, repeatPassword, updateRepeatPassword } = useInputStore()
     const [errors, setErrors] = React.useState<{ password?: string; repeatPassword?: string }>({})
 
-    const handleClick = () => {
+    const handleClick = async () => {
         const result = userPasswordValidationSchema.safeParse({ password, repeatPassword })
 
         if (!result.success) {
@@ -24,6 +25,15 @@ const Password = () => {
             })
         } else {
             setErrors({})
+            try {
+                await axios.post("/api/password", {
+                    password,
+                    repeatPassword,
+                    emailAddress
+                })  
+            } catch (error){
+                console.log(error);
+            }
             router.push("/success")
         }
     }
@@ -49,7 +59,7 @@ const Password = () => {
                 <TextInput
                     value={password}
                     onChange={(e) => updatePassword(e?.target.value)}
-                    type='text'
+                    type='password'
                     error={errors.password}
                     placeholder='Your Password'
                 />
@@ -69,7 +79,7 @@ const Password = () => {
                 <TextInput
                     value={repeatPassword}
                     onChange={(e) => updateRepeatPassword(e?.target.value)}
-                    type='text'
+                    type='password'
                     error={errors.repeatPassword}
                     placeholder='Repeat your password'
                 />
