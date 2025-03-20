@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Register app",
+  title: "AI Coin Prediction",
   description: "Made by FK",
 };
 
