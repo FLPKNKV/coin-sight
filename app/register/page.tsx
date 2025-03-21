@@ -8,6 +8,7 @@ import { useInputStore } from "../store/store"
 import axios from "axios"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
+import Spinner from "../components/Spinner"
 
 const Register = () => {
     const {
@@ -18,7 +19,7 @@ const Register = () => {
         updateFirstName,
         updateLastName,
     } = useInputStore()
-
+    const [loading, setLoading] = React.useState<boolean>(false)
     const [errors, setErrors] = React.useState<{
         firstName?: string
         lastName?: string
@@ -38,6 +39,7 @@ const Register = () => {
             })
         } else {
             setErrors({})
+            setLoading(true)
             try {
                 await axios.post("/api/register", {
                     firstName,
@@ -47,8 +49,14 @@ const Register = () => {
                 router.push("/password")
             } catch (error) {
                 console.log("Registration failed", error)
+            } finally {
+                    setLoading(false)
             }
         }
+    }
+
+    if (loading) {
+        return <Spinner />
     }
     return (
         <>
