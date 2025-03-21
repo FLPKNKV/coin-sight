@@ -24,10 +24,10 @@ export async function POST(request: NextRequest) {
             success: true,
             savedUser,
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json(
             {
-                error: error.message,
+                error: (error instanceof Error) ? error.message : "An unknown error occurred",
             },
             { status: 500 }
         )

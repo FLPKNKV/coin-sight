@@ -32,7 +32,7 @@ const Password = () => {
                     emailAddress
                 })  
             } catch (error){
-                console.log(error);
+                console.log("Error setting password", error);
             }
             router.push("/success")
         }
