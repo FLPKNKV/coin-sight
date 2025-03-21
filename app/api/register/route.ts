@@ -2,10 +2,13 @@ import { connect } from "../../db/database-config"
 import User from "../../db/models/userModel"
 import { NextRequest, NextResponse } from "next/server"
 
-connect().then(() => console.log("DB connected")).catch(error => console.log("DB Connection failed", error))
+const connectDB = async () => {
+    connect().then(() => console.log("DB connected")).catch(error => console.log("DB Connection failed", error))
+}
 
 export async function POST(request: NextRequest) {
     try {
+        connectDB();
         const { firstName, lastName, emailAddress } = await request.json()
 
         const user = await User.findOne({ emailAddress })
