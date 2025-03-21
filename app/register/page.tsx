@@ -48,11 +48,6 @@ const Register = () => {
                         lastName,
                         emailAddress,
                     },
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
                 )
                 router.push("/password")
             } catch (error) {
