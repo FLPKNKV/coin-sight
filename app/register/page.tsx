@@ -21,6 +21,7 @@ const Register = () => {
         addError,
     } = useInputStore()
     const [loading, setLoading] = React.useState<boolean>(false)
+    const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
     const [errors, setErrors] = React.useState<{
         firstName?: string
         lastName?: string
@@ -41,6 +42,7 @@ const Register = () => {
         } else {
             setErrors({})
             setLoading(true)
+            setIsSubmitted(true)
             try {
                 await axios.post(
                     "/api/register",
@@ -66,7 +68,7 @@ const Register = () => {
         }
     }
 
-    if (loading) {
+    if (loading || isSubmitted) {
         return <Spinner />
     }
     return (
