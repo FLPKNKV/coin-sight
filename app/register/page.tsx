@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { userDetailValidationSchema } from "../schemas/userDetailSchema"
 import { useInputStore } from "../store/store"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
 import Spinner from "../components/Spinner"
@@ -18,6 +18,7 @@ const Register = () => {
         updateEmailAddress,
         updateFirstName,
         updateLastName,
+        addError,
     } = useInputStore()
     const [loading, setLoading] = React.useState<boolean>(false)
     const [errors, setErrors] = React.useState<{
@@ -56,7 +57,9 @@ const Register = () => {
                 )
                 router.push("/password")
             } catch (error) {
+                router.push("/error")
                 console.log("Registration failed", error)
+                addError(error as AxiosError);
             } finally {
                 setLoading(false)
             }

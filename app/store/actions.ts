@@ -6,4 +6,5 @@ export interface inputAction {
     updateEmailAddress: (emailAddress: User['emailAddress']) => void;
     updatePassword: (password: User['password']) => void,
     updateRepeatPassword: (repeatPassword: User['repeatPassword']) => void;
+    addError: (addError: User['error']) => void;
 }
