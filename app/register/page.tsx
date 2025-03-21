@@ -41,16 +41,24 @@ const Register = () => {
             setErrors({})
             setLoading(true)
             try {
-                await axios.post("/api/register", {
-                    firstName,
-                    lastName,
-                    emailAddress,
-                })
+                await axios.post(
+                    "/api/register",
+                    {
+                        firstName,
+                        lastName,
+                        emailAddress,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
                 router.push("/password")
             } catch (error) {
                 console.log("Registration failed", error)
             } finally {
-                    setLoading(false)
+                setLoading(false)
             }
         }
     }
