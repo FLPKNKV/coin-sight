@@ -18,7 +18,7 @@ const Success = () => {
             <Image src='/success.svg' alt='Success' width={120} height={120} />
             <p className='font-spacemono font-bold text-2xl'>Congratulations</p>
             <p className='font-spacemono text-center text-sm duration-500 mt-2'>
-                You have successfuly createad an account
+                You have successfuly created an account
             </p>
         </div>
     )

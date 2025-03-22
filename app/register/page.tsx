@@ -2,6 +2,7 @@
 
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { userDetailValidationSchema } from "../schemas/userDetailSchema"
 import { useInputStore } from "../store/store"
@@ -140,9 +141,9 @@ const Register = () => {
                 <Button disabled={!firstName || !lastName || !emailAddress} onClick={handleClick}>
                     Continue
                 </Button>
-                <p className='flex justify-center items-center font-spacemono text-l text-primary font-bold'>
+                <Link href="/login" className='flex justify-center items-center font-spacemono text-l text-primary font-bold'>
                     Already have an account?
-                </p>
+                </Link>
             </div>
         </div>
     )

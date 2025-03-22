@@ -44,7 +44,7 @@ const Password = () => {
                     repeatPassword,
                     emailAddress
                 })
-                router.push("/success") 
+                router.push("/login") 
             } catch (error) {                
                 console.log("Error setting password", error)
                 router.push("/error")
