@@ -9,10 +9,6 @@ export default function GlobalError() {
   const { error } = useInputStore();
   const router = useRouter();
 
-  useEffect(() => {
-    console.error("Global error occurred:", error);
-  }, [error]);
-
   return (
     <div className="fixed inset-0 flex items-center justify-center p-4 z-50 animate__animated animate__fadeIn animate__faster">
       <div className="bg-white p-6 w-full max-w-md sm:max-w-lg lg:max-w-xl animate__zoomIn animate__faster">
