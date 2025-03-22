@@ -61,18 +61,7 @@ const Password = () => {
     }
 
     return (
-        <>
-            <div className='flex flex-col items-center justify-center pt-[20px]'>
-                <Image src='/logo.svg' alt='logo' width={80} height={80} />
-                <div className='flex flex-row items-center justify-center p-2 gap-2'>
-                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
-                        1
-                    </div>
-                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-gray p-2'>
-                        2
-                    </div>
-                </div>
-            </div>
+        <div className="flex items-center justify-center min-h-screen">
             <div className='animate-fadeInSlide p-6 md:w-1/4 md:flex md:flex-col md:m-auto'>
                 <p className='font-spacemono text-2xl text-left font-bold mb-2'>
                     Password details:
@@ -121,7 +110,7 @@ const Password = () => {
                     Register
                 </Button>
             </div>
-        </>
+        </div>
     )
 }
 
