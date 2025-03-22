@@ -5,23 +5,24 @@ import bcrypt from "bcryptjs";
 export async function POST(request: NextRequest) {
     try {
         const { emailAddress, password, repeatPassword } = await request.json();
-        const user = await User.findOne({ emailAddress });
-        if(!user){
-           console.log(user)
-            return NextResponse.json({ error: "User doesn't exist" }, { status: 400 });
-        }
 
-        if (!user || !bcrypt.compareSync(password, user.password)) {
-            return NextResponse.json({ error: "Invalid credentials. No such user exists" }, { status: 400 });
+        if(!emailAddress){
+            return NextResponse.json({ error: "Email address is required for you to register a user." }, { status: 400 });
+        }
+        const user = await User.findOne({ emailAddress });
+
+        if(!user){
+            return NextResponse.json({ error: "User doesn't exist" }, { status: 400 });
         }
 
         if (password !== repeatPassword) {
             return NextResponse.json({ error: "Passwords do not match" }, { status: 400 });
         }
-
+        
         const salt = await bcrypt.genSalt(10)
         user.password = await bcrypt.hash(password, salt)
 
+        
         await user.save()
 
         return NextResponse.json({

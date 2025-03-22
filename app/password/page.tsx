@@ -9,6 +9,7 @@ import { useInputStore } from "../store/store"
 import { userPasswordValidationSchema } from "../schemas/userDetailSchema"
 import { AxiosError } from "axios"
 import axios from "axios"
+import Spinner from "../components/Spinner"
 
 const Password = () => {
     const router = useRouter()
@@ -21,6 +22,8 @@ const Password = () => {
         addError,
     } = useInputStore()
     const [errors, setErrors] = React.useState<{ password?: string; repeatPassword?: string }>({})
+    const [loading, setLoading] = React.useState<boolean>(false)
+    const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
 
     const handleClick = async () => {
         const result = userPasswordValidationSchema.safeParse({ password, repeatPassword })
@@ -34,18 +37,27 @@ const Password = () => {
         } else {
             setErrors({})
             try {
+                setLoading(true)
+                setIsSubmitted(true)
                 await axios.post("/api/password", {
                     password,
                     repeatPassword,
-                    emailAddress,
+                    emailAddress
                 })
                 router.push("/success") 
-            } catch (error) {
-                router.push("/error")
+            } catch (error) {                
                 console.log("Error setting password", error)
+                router.push("/error")
                 addError(error as AxiosError)
-            } 
+            } finally {
+                setLoading(false)
+            }
         }
+        
+    }
+
+    if(loading || isSubmitted){
+        return <Spinner />
     }
 
     return (
