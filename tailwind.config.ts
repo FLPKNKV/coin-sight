@@ -15,10 +15,7 @@ export default {
         gray_border: "#0216261F"
       },
       fontFamily: {
-        garamond: ['"EB Garamond"', 'serif'],
-        grotesk: ['"Host Grotesk"', 'sans-serif'],
         spacemono: ['"Space Mono"', 'monospace'],
-
       }
     },
     keyframes: {
