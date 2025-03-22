@@ -17,6 +17,8 @@ export default {
       fontFamily: {
         garamond: ['"EB Garamond"', 'serif'],
         grotesk: ['"Host Grotesk"', 'sans-serif'],
+        spacemono: ['"Space Mono"', 'monospace'],
+
       }
     },
     keyframes: {

@@ -6,9 +6,13 @@ export async function POST(request: NextRequest) {
     try {
         const { emailAddress, password, repeatPassword } = await request.json();
         const user = await User.findOne({ emailAddress });
-
         if(!user){
+           console.log(user)
             return NextResponse.json({ error: "User doesn't exist" }, { status: 400 });
+        }
+
+        if (!user || !bcrypt.compareSync(password, user.password)) {
+            return NextResponse.json({ error: "Invalid credentials. No such user exists" }, { status: 400 });
         }
 
         if (password !== repeatPassword) {

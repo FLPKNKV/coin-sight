@@ -13,8 +13,8 @@ const Button = ({disabled, onClick, children}:ButtonProps) => {
             onClick={onClick}
             className={`${
                 disabled
-                    ? "w-full bg-red-200 font-grotesk font-bold cursor-not-allowed text-white p-4 rounded-full mt-4 mb-4"
-                    : "w-full bg-primary font-grotesk font-bold text-white p-4 rounded-full mt-4 mb-4"
+                    ? "w-full bg-red-200 font-spacemono font-bold cursor-not-allowed text-white p-4 rounded-full mt-4 mb-4"
+                    : "w-full bg-primary font-spacemono font-bold text-white p-4 rounded-full mt-4 mb-4"
             }`}
         >
             {children}

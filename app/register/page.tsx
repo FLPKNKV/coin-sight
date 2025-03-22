@@ -73,22 +73,22 @@ const Register = () => {
     }
     return (
         <>
-            <div className='flex flex-col items-center justify-center pt-[59px]'>
+            <div className='flex flex-col items-center justify-center pt-[20px]'>
                 <Image src='/logo.svg' alt='logo' width={80} height={80} />
                 <div className='flex flex-row items-center justify-center p-2 gap-2'>
-                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
+                    <div className='font-spacemono w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
                         1
                     </div>
-                    <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-gray p-2'>
+                    <div className='font-spacemono w-8 h-8 rounded-full flex items-center justify-center border text-white bg-gray p-2'>
                         2
                     </div>
                 </div>
             </div>
             <div className='animate-fadeInSlide p-6 md:w-1/4 md:flex md:flex-col md:m-auto'>
-                <p className='font-garamond text-xl text-left font-bold mb-2'>
+                <p className='font-spacemono text-2xl text-left font-bold mb-4'>
                     Registration details:
                 </p>
-                <p className='text-sm mb-1 font-grotesk text-black'>First name:</p>
+                <p className='text-xs mb-1 font-spacemono text-black'>First name:</p>
                 <TextInput
                     value={firstName}
                     onChange={(e) => updateFirstName(e.target.value)}
@@ -108,7 +108,7 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.firstName}</p>
                     </div>
                 )}
-                <p className='text-sm mb-1 font-grotesk text-black'>Last name:</p>
+                <p className='text-xs mb-1 font-spacemono text-black'>Last name:</p>
                 <TextInput
                     value={lastName}
                     onChange={(e) => updateLastName(e?.target.value)}
@@ -128,7 +128,7 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.lastName}</p>
                     </div>
                 )}
-                <p className='text-sm mb-1 font-grotesk text-black'>Email address:</p>
+                <p className='text-xs mb-1 font-spacemono text-black'>Email address:</p>
                 <TextInput
                     value={emailAddress}
                     onChange={(e) => updateEmailAddress(e?.target.value)}
@@ -151,7 +151,7 @@ const Register = () => {
                 <Button disabled={!firstName || !lastName || !emailAddress} onClick={handleClick}>
                     Continue
                 </Button>
-                <p className='flex justify-center items-center font-grotesk text-l text-primary font-bold'>
+                <p className='flex justify-center items-center font-spacemono text-l text-primary font-bold'>
                     Already have an account?
                 </p>
             </div>

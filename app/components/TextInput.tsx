@@ -14,7 +14,7 @@ const TextInput = ({value, onChange, type, error, placeholder}:TextInputProps) =
             value={value}
             onChange={onChange}
             type={type}
-            className={`w-full p-4 border-2 rounded-full mb-2 border-gray_border focus:outline-none ${error ? "border-400 border-red-400 cursor-pointer border-2 rounded-full mb-2" : "border-gray_border focus:outline-none focus:ring-2 focus:border-primary"}`}
+            className={`w-full p-4 border-2 rounded-full mb-2 border-gray_border focus:outline-none font-spacemono ${error ? "border-400 border-red-400 cursor-pointer border-2 rounded-full mb-2" : "border-gray_border focus:outline-none focus:ring-2 focus:border-primary"}`}
             placeholder={placeholder}/>
     )
 }

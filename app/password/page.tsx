@@ -7,11 +7,19 @@ import Button from "../components/Button"
 import { useRouter } from "next/navigation"
 import { useInputStore } from "../store/store"
 import { userPasswordValidationSchema } from "../schemas/userDetailSchema"
+import { AxiosError } from "axios"
 import axios from "axios"
 
 const Password = () => {
     const router = useRouter()
-    const { emailAddress, password, updatePassword, repeatPassword, updateRepeatPassword } = useInputStore()
+    const {
+        emailAddress,
+        password,
+        updatePassword,
+        repeatPassword,
+        updateRepeatPassword,
+        addError,
+    } = useInputStore()
     const [errors, setErrors] = React.useState<{ password?: string; repeatPassword?: string }>({})
 
     const handleClick = async () => {
@@ -29,18 +37,20 @@ const Password = () => {
                 await axios.post("/api/password", {
                     password,
                     repeatPassword,
-                    emailAddress
-                })  
-            } catch (error){
-                console.log("Error setting password", error);
-            }
-            router.push("/success")
+                    emailAddress,
+                })
+                router.push("/success") 
+            } catch (error) {
+                router.push("/error")
+                console.log("Error setting password", error)
+                addError(error as AxiosError)
+            } 
         }
     }
 
     return (
         <>
-            <div className='flex flex-col items-center justify-center pt-[59px]'>
+            <div className='flex flex-col items-center justify-center pt-[20px]'>
                 <Image src='/logo.svg' alt='logo' width={80} height={80} />
                 <div className='flex flex-row items-center justify-center p-2 gap-2'>
                     <div className='font-garamond w-8 h-8 rounded-full flex items-center justify-center border text-white bg-primary p-2'>
@@ -52,10 +62,10 @@ const Password = () => {
                 </div>
             </div>
             <div className='animate-fadeInSlide p-6 md:w-1/4 md:flex md:flex-col md:m-auto'>
-                <p className='font-garamond text-xl text-left font-bold mb-2'>
-                    Registration details:
+                <p className='font-spacemono text-2xl text-left font-bold mb-2'>
+                    Password details:
                 </p>
-                <p className='text-sm mb-1 font-grotesk text-black'>Password:</p>
+                <p className='text-xs mb-1 font-spacemono text-black'>Password:</p>
                 <TextInput
                     value={password}
                     onChange={(e) => updatePassword(e?.target.value)}
@@ -75,7 +85,7 @@ const Password = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.password}</p>
                     </div>
                 )}
-                <p className='text-sm mb-1 font-grotesk text-black'>Repeat Password:</p>
+                <p className='text-xs mb-1 font-spacemono text-black'>Repeat Password:</p>
                 <TextInput
                     value={repeatPassword}
                     onChange={(e) => updateRepeatPassword(e?.target.value)}
