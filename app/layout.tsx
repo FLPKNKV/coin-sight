@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import { ReactNode } from "react"
+import { connect } from "./db/database-config"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -6,9 +8,9 @@ export const metadata: Metadata = {
     description: "Made by FK",
 }
 
-import { ReactNode } from "react"
-
 export default function RootLayout({ children }: { children: ReactNode }) {
+    connect();
+
     return (
         <html lang='en'>
             <head>

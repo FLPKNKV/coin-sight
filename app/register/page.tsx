@@ -16,9 +16,13 @@ const Register = () => {
         firstName,
         lastName,
         emailAddress,
+        password,
+        repeatPassword,
         updateEmailAddress,
         updateFirstName,
         updateLastName,
+        updatePassword,
+        updateRepeatPassword,
         addError,
     } = useInputStore()
     const [loading, setLoading] = React.useState<boolean>(false)
@@ -26,12 +30,14 @@ const Register = () => {
     const [errors, setErrors] = React.useState<{
         firstName?: string
         lastName?: string
-        emailAddress?: string
+        emailAddress?: string,
+        password?: string,
+        repeatPassword?: string
     }>({})
     const router = useRouter()
 
     const handleClick = async () => {
-        const result = userDetailValidationSchema.safeParse({ firstName, lastName, emailAddress })
+        const result = userDetailValidationSchema.safeParse({ firstName, lastName, emailAddress, password, repeatPassword })
 
         if (!result.success) {
             const resultErrors = result.error.format()
@@ -39,6 +45,8 @@ const Register = () => {
                 firstName: resultErrors.firstName?._errors[0],
                 lastName: resultErrors.lastName?._errors[0],
                 emailAddress: resultErrors.emailAddress?._errors[0],
+                password: resultErrors.password?._errors[0],
+                repeatPassword: resultErrors.repeatPassword?._errors[0],
             })
         } else {
             setErrors({})
@@ -51,6 +59,8 @@ const Register = () => {
                         firstName,
                         lastName,
                         emailAddress,
+                        password,
+                        repeatPassword
                     },
                     {
                         headers: {
@@ -58,7 +68,7 @@ const Register = () => {
                         }
                     }
                 )
-                router.push("/password")
+                router.push("/login")
             } catch (error) {
                 router.push("/error")
                 console.log("Registration failed", error)
@@ -74,7 +84,7 @@ const Register = () => {
     }
     return (
         <div className="flex items-center justify-center min-h-screen">
-            <div className='animate-fadeInSlide p-6 md:w-1/4 md:flex md:flex-col md:m-auto'>
+            <div className='animate-fadeInSlide p-6 lg:w-1/5 md:flex md:flex-col md:m-auto'>
                 <p className='font-spacemono text-2xl text-left font-bold mb-4'>
                     Registration details:
                 </p>
@@ -138,7 +148,47 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.emailAddress}</p>
                     </div>
                 )}
-                <Button disabled={!firstName || !lastName || !emailAddress} onClick={handleClick}>
+                <p className='text-xs mb-1 font-spacemono text-black'>Password:</p>
+                <TextInput
+                    value={password}
+                    onChange={(e) => updatePassword(e?.target.value)}
+                    type='password'
+                    error={errors.password}
+                    placeholder='Your password'
+                />
+                {errors.password && (
+                    <div className='flex'>
+                        <Image
+                            src='/validation.svg'
+                            alt='logo'
+                            className='mb-2 mr-1'
+                            width={16}
+                            height={16}
+                        />{" "}
+                        <p className='text-red-500 text-sm mb-2'>{errors.password}</p>
+                    </div>
+                )}
+                <p className='text-xs mb-1 font-spacemono text-black'>Repeat password:</p>
+                <TextInput
+                    value={repeatPassword}
+                    onChange={(e) => updateRepeatPassword(e?.target.value)}
+                    type='password'
+                    error={errors.repeatPassword}
+                    placeholder='Repeat Password'
+                />
+                {errors.repeatPassword && (
+                    <div className='flex'>
+                        <Image
+                            src='/validation.svg'
+                            alt='logo'
+                            className='mb-2 mr-1'
+                            width={16}
+                            height={16}
+                        />{" "}
+                        <p className='text-red-500 text-sm mb-2'>{errors.repeatPassword}</p>
+                    </div>
+                )}
+                <Button disabled={!emailAddress || !repeatPassword} onClick={handleClick}>
                     Continue
                 </Button>
                 <Link href="/login" className='flex justify-center items-center font-spacemono text-l text-primary font-bold'>
