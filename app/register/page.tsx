@@ -84,7 +84,7 @@ const Register = () => {
     }
     return (
         <div className="flex items-center justify-center min-h-screen">
-            <div className='animate-fadeInSlide p-6 lg:w-1/5 md:flex md:flex-col md:m-auto'>
+            <div className='animate-fadeInSlide p-6 sm:w-1/4 md:flex md:flex-col md:m-auto'>
                 <p className='font-spacemono text-2xl text-left font-bold mb-4'>
                     Registration details:
                 </p>
