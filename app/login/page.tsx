@@ -4,33 +4,37 @@ import React from "react"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
 import Spinner from "../components/Spinner"
-import { useLoginStore } from "../store/store"
-import axios from "axios"
+import { useInputStore, useLoginStore } from "../store/store"
+import { signInWithEmailAndPassword, auth } from "../lib/firebase"
 import { useRouter } from "next/navigation"
+import { getFirebaseErrorMessage } from "../lib/firebaseErrMessage"
 
 const Login = () => {
+    const {addError} = useInputStore()
     const {emailAddress, updateEmailAddress, password, updatePassword,} = useLoginStore();
     const [loading, setLoading] = React.useState<boolean>(false);
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
 
     const router = useRouter();
 
-    const handleClick = async () => {
+    const handleLogin = async () => {
+        setLoading(true);
+        setIsSubmitted(true);
         try {
-            setLoading(true)
-            setIsSubmitted(true)
-            await axios.post("/api/login", {
-                emailAddress,
-                password,
-            })
-            router.push("/success")
-        }
-        catch (error) {
-            console.log("Error logging in", error)
+          if (!emailAddress || !password) {
+            throw new Error("Email address and password must be provided.");
+          }
+          await signInWithEmailAndPassword(auth, emailAddress, password);
+          router.push("/success");
+        } catch (err) {
+            router.push("/error");
+            console.log("Error", err)
+            const errorMessage = getFirebaseErrorMessage(err?.code);
+            addError(errorMessage);
         } finally {
-            setLoading(false)
+          setLoading(false);
         }
-    }
+      }
 
     if(loading || isSubmitted){
         return <Spinner />
@@ -56,7 +60,7 @@ const Login = () => {
                     type='password'
                     placeholder='Your password'
                 />
-                <Button disabled={!emailAddress || !password} onClick={handleClick}>
+                <Button disabled={!emailAddress || !password} onClick={handleLogin}>
                     Login
                 </Button>
             </div>
