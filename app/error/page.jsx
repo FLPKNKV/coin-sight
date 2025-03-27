@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useInputStore } from "../store/store";
 import { useRouter } from "next/navigation";
 import Button from "../components/Button"; // Assuming this is your reusable button component
@@ -16,7 +16,7 @@ export default function GlobalError() {
           Oops! Something went wrong.
         </h1>
         <p className="text-base sm:text-2xl text-center text-blue-400 font-spacemono mb-4">
-          {error?.response?.data?.error || "An unknown error occurred."}
+          {error || "An unknown error occurred."}
         </p>
           <Button
             onClick={() => router.back()}
