@@ -1,15 +1,31 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { FiHome, FiSettings, FiUser } from 'react-icons/fi';
+import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import { FiHome, FiSettings, FiUser } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('Home');
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(user)
+      if (!user) {
+        router.push("/login"); // Redirect to login if not authenticated
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup listener
+  }, [router]); // Ensure router is part of the dependency
+
+  const [activeTab, setActiveTab] = useState("Home");
 
   const tabs = [
-    { name: 'Home', icon: <FiHome /> },
-    { name: 'Profile', icon: <FiUser /> },
-    { name: 'Settings', icon: <FiSettings /> }
+    { name: "Home", icon: <FiHome /> },
+    { name: "Profile", icon: <FiUser /> },
+    { name: "Settings", icon: <FiSettings /> },
   ];
 
   return (
@@ -21,7 +37,11 @@ const Dashboard = () => {
             <button
               key={tab.name}
               onClick={() => setActiveTab(tab.name)}
-              className={`flex items-center gap-3 p-3 w-full rounded-lg ${activeTab === tab.name ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
+              className={`flex items-center gap-3 p-3 w-full rounded-lg ${
+                activeTab === tab.name
+                  ? "bg-blue-500 text-white"
+                  : "text-gray-700 hover:bg-gray-200"
+              }`}
             >
               {tab.icon}
               {tab.name}
