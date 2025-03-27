@@ -5,8 +5,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { userDetailValidationSchema } from "../schemas/userDetailSchema"
+import { createUserWithEmailAndPassword, auth } from "../lib/firebase"
+import { getFirebaseErrorMessage } from "../lib/firebaseErrMessage"
 import { useInputStore } from "../store/store"
-import axios, { AxiosError } from "axios"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
 import Spinner from "../components/Spinner"
@@ -52,30 +53,20 @@ const Register = () => {
             setErrors({})
             setLoading(true)
             setIsSubmitted(true)
-            try {
-                await axios.post(
-                    "/api/register",
-                    {
-                        firstName,
-                        lastName,
-                        emailAddress,
-                        password,
-                        repeatPassword
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        }
-                    }
-                )
-                router.push("/login")
-            } catch (error) {
-                router.push("/error")
-                console.log("Registration failed", error)
-                addError(error as AxiosError);
-            } finally {
-                setLoading(false)
-            }
+           try {
+             if (emailAddress && password) {
+                 await createUserWithEmailAndPassword(auth, emailAddress, password);
+             } else {
+                 router.push("/error");
+                 console.error("Email address or password is undefined");
+             }
+             router.push("/login");
+           }
+           catch(err) {
+            console.log("Error", err)
+            const errorMessage = getFirebaseErrorMessage(err?.code);
+            addError(errorMessage);
+           }
         }
     }
 
