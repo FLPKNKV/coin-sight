@@ -1,9 +1,11 @@
-import Register from "./register/page";
+import Navbar from "./components/Navbar";
+// import Register from "./register/page";
 
 export default function Home() {
   return (
    <div>
-      <Register />
+      <Navbar />
+      {/* <Register /> */}
    </div>
   );
 }

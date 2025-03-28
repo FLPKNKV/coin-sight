@@ -7,6 +7,7 @@ import Button from "../components/Button"; // Assuming this is your reusable but
 
 export default function GlobalError() {
   const { error } = useInputStore();
+  console.log("error", error)
   const router = useRouter();
 
   return (

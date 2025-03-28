@@ -8,6 +8,7 @@ import { useInputStore, useLoginStore } from "../store/store"
 import { signInWithEmailAndPassword, auth } from "../lib/firebase"
 import { useRouter } from "next/navigation"
 import { getFirebaseErrorMessage } from "../lib/firebaseErrMessage"
+import { FirebaseError } from "firebase/app"
 
 const Login = () => {
     const {addError} = useInputStore()
@@ -18,6 +19,7 @@ const Login = () => {
     const router = useRouter();
 
     const handleLogin = async () => {
+        let errorMessage;
         setLoading(true);
         setIsSubmitted(true);
         try {
@@ -26,11 +28,14 @@ const Login = () => {
           }
           await signInWithEmailAndPassword(auth, emailAddress, password);
           router.push("/success");
-        } catch (err) {
+        } catch (err: unknown) {
             router.push("/error");
             console.log("Error", err)
-            const errorMessage = getFirebaseErrorMessage(err?.code);
-            addError(errorMessage);
+            if(err instanceof FirebaseError){
+                errorMessage = getFirebaseErrorMessage(err?.code);
+                console.log(errorMessage)
+                addError(errorMessage);
+            }
         } finally {
           setLoading(false);
         }

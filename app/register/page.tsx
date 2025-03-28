@@ -11,6 +11,7 @@ import { useInputStore } from "../store/store"
 import TextInput from "../components/TextInput"
 import Button from "../components/Button"
 import Spinner from "../components/Spinner"
+import { FirebaseError } from "firebase/app"
 
 const Register = () => {
     const {
@@ -58,14 +59,14 @@ const Register = () => {
                  await createUserWithEmailAndPassword(auth, emailAddress, password);
              } else {
                  router.push("/error");
-                 console.error("Email address or password is undefined");
              }
              router.push("/login");
            }
            catch(err) {
-            console.log("Error", err)
-            const errorMessage = getFirebaseErrorMessage(err?.code);
-            addError(errorMessage);
+            if(err instanceof FirebaseError){
+                const errorMessage = getFirebaseErrorMessage(err?.code);
+                addError(errorMessage);
+            }
            }
         }
     }
