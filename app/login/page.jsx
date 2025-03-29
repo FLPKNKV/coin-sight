@@ -23,7 +23,11 @@ const Login = () => {
             if (!emailAddress || !password) {
                 throw new Error("Email address and password must be provided.")
             }
-            await signInWithEmailAndPassword(auth, emailAddress, password)
+            const userCredentials = await signInWithEmailAndPassword(auth, emailAddress, password)
+            const user = userCredentials.user
+            if(!user.emailVerified){
+                alert("Please verify your email address before logging in.")
+            }
             router.push("/dashboard")
         } catch (err) {
             console.log("Error", err)

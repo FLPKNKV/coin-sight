@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { userDetailValidationSchema } from "../schemas/userDetailSchema"
-import { createUserWithEmailAndPassword, auth } from "../../lib/firebase"
+import { createUserWithEmailAndPassword, auth, sendEmailVerification } from "../../lib/firebase"
 import { getFirebaseErrorMessage } from "../../lib/firebaseErrMessage"
 import { useInputStore } from "../store/store"
 import { FirebaseError } from "firebase/app"
@@ -54,7 +54,8 @@ const Register = () => {
             setLoading(true)
            try {
              if (emailAddress && password) {
-                 await createUserWithEmailAndPassword(auth, emailAddress, password);
+                const userCredentials =  await createUserWithEmailAndPassword(auth, emailAddress, password);
+                await sendEmailVerification(userCredentials.user);
              } else {
                  router.push("/error");
              }
