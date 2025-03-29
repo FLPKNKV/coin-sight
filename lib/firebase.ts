@@ -4,6 +4,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
+    sendEmailVerification
 } from "firebase/auth"
 
 const firebaseConfig = {
@@ -18,4 +19,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
-export { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut }
+export { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut }
