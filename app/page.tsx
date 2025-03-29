@@ -33,7 +33,6 @@ export default function Home() {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-
             <Register />
         </>
     )

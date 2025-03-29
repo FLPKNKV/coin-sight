@@ -44,7 +44,6 @@ const Login = () => {
         ) 
     }
 
-
     return (
         <div className='flex items-center justify-center min-h-screen'>
             <div className='animate-fadeInSlide p-6 md:w-1/4 md:flex md:flex-col md:m-auto'>

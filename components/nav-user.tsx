@@ -28,16 +28,19 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
+import { signOut, auth } from "../lib/firebase"
+import { useRouter } from "next/navigation"
+export function NavUser({ user }) {
+  const router = useRouter();
+  const handleSignout = async () => {
+    try {
+      await signOut(auth);
+      router.push("/login")
+    }
+    catch(error){
+      console.log(error);
+    }
   }
-}) {
   const { isMobile } = useSidebar()
 
   return (
@@ -98,7 +101,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignout}>
               <LogOutIcon />
               Log out
             </DropdownMenuItem>
