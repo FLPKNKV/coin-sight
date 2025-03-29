@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/sidebar"
 import { signOut, auth } from "../lib/firebase"
 import { useRouter } from "next/navigation"
-export function NavUser({ user }) {
+export function NavUser({ user }:{user: {name: string, email: string, avatar: string}}) {
   const router = useRouter();
   const handleSignout = async () => {
     try {
