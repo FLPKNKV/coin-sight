@@ -1,60 +1,30 @@
-"use client";
+import { AppSidebar } from "@/components/app-sidebar"
+import { ChartAreaInteractive } from "@/components/chart-area-interactive"
+import { DataTable } from "@/components/data-table"
+import { SectionCards } from "@/components/section-cards"
+import { SiteHeader } from "@/components/site-header"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
-import { useState, useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../lib/firebase";
-import { FiHome, FiSettings, FiUser } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+import data from "./data.json"
 
-const Dashboard = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log(user)
-      if (!user) {
-        router.push("/login"); // Redirect to login if not authenticated
-      }
-    });
-
-    return () => unsubscribe(); // Cleanup listener
-  }, [router]); // Ensure router is part of the dependency
-
-  const [activeTab, setActiveTab] = useState("Home");
-
-  const tabs = [
-    { name: "Home", icon: <FiHome /> },
-    { name: "Profile", icon: <FiUser /> },
-    { name: "Settings", icon: <FiSettings /> },
-  ];
-
+export default function Page() {
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <aside className="w-64 bg-white shadow-md p-5">
-        <h2 className="text-2xl font-spacemono font-bold mb-6">Dashboard</h2>
-        <nav>
-          {tabs.map((tab) => (
-            <button
-              key={tab.name}
-              onClick={() => setActiveTab(tab.name)}
-              className={`flex items-center gap-3 p-3 w-full rounded-lg ${
-                activeTab === tab.name
-                  ? "bg-blue-500 text-white"
-                  : "text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {tab.icon}
-              {tab.name}
-            </button>
-          ))}
-        </nav>
-      </aside>
-      <main className="flex-1 p-10">
-        <h1 className="text-3xl font-bold mb-4">{activeTab}</h1>
-        <p>Content for {activeTab} goes here.</p>
-      </main>
-    </div>
-  );
-};
-
-export default Dashboard;
+    <SidebarProvider>
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <SectionCards />
+              <div className="px-4 lg:px-6">
+                <ChartAreaInteractive />
+              </div>
+              <DataTable data={data} />
+            </div>
+          </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
