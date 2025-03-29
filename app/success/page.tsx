@@ -9,7 +9,7 @@ const Success = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            route.push('/dashboard')
+            route.push('/login')
         },3000)
     }, []) // no dependecy because i want this to run only once when the component mounts. there won't be another redirect to the dashboard after this.
 

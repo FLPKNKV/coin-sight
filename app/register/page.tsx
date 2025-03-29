@@ -5,13 +5,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { userDetailValidationSchema } from "../schemas/userDetailSchema"
-import { createUserWithEmailAndPassword, auth } from "../lib/firebase"
-import { getFirebaseErrorMessage } from "../lib/firebaseErrMessage"
+import { createUserWithEmailAndPassword, auth } from "../../lib/firebase"
+import { getFirebaseErrorMessage } from "../../lib/firebaseErrMessage"
 import { useInputStore } from "../store/store"
-import TextInput from "../components/TextInput"
-import Button from "../components/Button"
-import Spinner from "../components/Spinner"
 import { FirebaseError } from "firebase/app"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
 
 const Register = () => {
     const {
@@ -28,7 +28,6 @@ const Register = () => {
         addError,
     } = useInputStore()
     const [loading, setLoading] = React.useState<boolean>(false)
-    const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
     const [errors, setErrors] = React.useState<{
         firstName?: string
         lastName?: string
@@ -53,14 +52,13 @@ const Register = () => {
         } else {
             setErrors({})
             setLoading(true)
-            setIsSubmitted(true)
            try {
              if (emailAddress && password) {
                  await createUserWithEmailAndPassword(auth, emailAddress, password);
              } else {
                  router.push("/error");
              }
-             router.push("/login");
+             router.push("/success");
            }
            catch(err) {
             if(err instanceof FirebaseError){
@@ -71,21 +69,20 @@ const Register = () => {
         }
     }
 
-    if (loading || isSubmitted) {
+    if (loading ) {
         return <Spinner />
     }
     return (
         <div className="flex items-center justify-center min-h-screen">
             <div className='animate-fadeInSlide p-6 sm:w-1/4 md:flex md:flex-col md:m-auto'>
-                <p className='font-spacemono text-2xl text-left font-bold mb-4'>
+                <p className='text-2xl text-left font-bold mb-4'>
                     Registration details:
                 </p>
-                <p className='text-xs mb-1 font-spacemono text-black'>First name:</p>
-                <TextInput
+                <p className='text-xs mb-1 text-black'>First name:</p>
+                <Input
                     value={firstName}
                     onChange={(e) => updateFirstName(e.target.value)}
                     type='text'
-                    error={errors.firstName}
                     placeholder='Your First Name'
                 />
                 {errors.firstName && (
@@ -100,12 +97,11 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.firstName}</p>
                     </div>
                 )}
-                <p className='text-xs mb-1 font-spacemono text-black'>Last name:</p>
-                <TextInput
+                <p className='text-xs mb-1 mt-2 text-black'>Last name:</p>
+                <Input
                     value={lastName}
                     onChange={(e) => updateLastName(e?.target.value)}
                     type='text'
-                    error={errors.lastName}
                     placeholder='Your Last Name'
                 />
                 {errors.lastName && (
@@ -120,12 +116,11 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.lastName}</p>
                     </div>
                 )}
-                <p className='text-xs mb-1 font-spacemono text-black'>Email address:</p>
-                <TextInput
+                <p className='text-xs mb-1 mt-2 text-black'>Email address:</p>
+                <Input
                     value={emailAddress}
                     onChange={(e) => updateEmailAddress(e?.target.value)}
                     type='text'
-                    error={errors.emailAddress}
                     placeholder='Your Email Address'
                 />
                 {errors.emailAddress && (
@@ -140,12 +135,11 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.emailAddress}</p>
                     </div>
                 )}
-                <p className='text-xs mb-1 font-spacemono text-black'>Password:</p>
-                <TextInput
+                <p className='text-xs mb-1 mt-2 text-black'>Password:</p>
+                <Input
                     value={password}
                     onChange={(e) => updatePassword(e?.target.value)}
                     type='password'
-                    error={errors.password}
                     placeholder='Your password'
                 />
                 {errors.password && (
@@ -160,12 +154,11 @@ const Register = () => {
                         <p className='text-red-500 text-sm mb-2'>{errors.password}</p>
                     </div>
                 )}
-                <p className='text-xs mb-1 font-spacemono text-black'>Repeat password:</p>
-                <TextInput
+                <p className='text-xs mb-1 mt-2 text-black'>Repeat password:</p>
+                <Input
                     value={repeatPassword}
                     onChange={(e) => updateRepeatPassword(e?.target.value)}
                     type='password'
-                    error={errors.repeatPassword}
                     placeholder='Repeat Password'
                 />
                 {errors.repeatPassword && (
@@ -183,7 +176,7 @@ const Register = () => {
                 <Button disabled={!emailAddress || !repeatPassword} onClick={handleClick}>
                     Continue
                 </Button>
-                <Link href="/login" className='flex justify-center items-center font-spacemono text-l text-primary font-bold'>
+                <Link href="/login" className='flex justify-center items-center text-l mt-8 text-purple-600 font-bold'>
                     Already have an account?
                 </Link>
             </div>
