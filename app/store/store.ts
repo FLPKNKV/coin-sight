@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { User } from "../types/user-interface";
 import { inputAction, loginAction } from "./actions";
 
@@ -17,9 +18,16 @@ export const useInputStore = create<User & inputAction>((set) => ({
     updateRepeatPassword: (repeatPassword) => set({ repeatPassword})
 }));
 
-export const useLoginStore = create<User & loginAction>((set) => ({
-    emailAddress: '',
-    password: '',
-    updateEmailAddress: (emailAddress) => set({ emailAddress }),
-    updatePassword: (password) => set({ password }),
-}));
+export const useLoginStore = create<User & loginAction>()(
+    persist(
+      (set) => ({
+        emailAddress: '',
+        password: '',
+        updateEmailAddress: (emailAddress) => set({ emailAddress }),
+        updatePassword: (password) => set({ password }),
+      }),
+      {
+        name: "login-storage",
+      }
+    )
+  );

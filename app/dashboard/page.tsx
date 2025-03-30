@@ -11,6 +11,7 @@ import data from "./data.json"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "@/lib/firebase"
 import { useEffect } from "react"
+import { Coin } from "@/components/coin-chart"
 
 
 export default function Page() {
@@ -34,9 +35,8 @@ export default function Page() {
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
               <SectionCards />
               <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
+              <Coin />
               </div>
-              <DataTable data={data} />
             </div>
           </div>
         </div>
