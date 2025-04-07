@@ -17,8 +17,8 @@ export function Coin() {
   const [priceChange, setPriceChange] = useState({ percentage: 0, isPositive: true })
   const [currentPrice, setCurrentPrice] = useState(0)
   const [timeRange, setTimeRange] = useState("30")
-  const [selectedCoinData, setSelectedCoinData] = useState<{ name: string; symbol: string; image?: string } | null>(null)
-
+  const [selectedCoinData, setSelectedCoinData] = useState(null)
+ 
   const chartConfig = {
     price: {
       label: `${selectedCoinData?.name || selectedCoin} Price`,
@@ -31,7 +31,6 @@ export function Coin() {
       try {
         const coins = await fetchCryptoList()
         setCoinList(coins)
-        // Set the initial selected coin data
         const initialCoin = coins.find((coin) => coin.id === selectedCoin)
         if (initialCoin) {
           setSelectedCoinData(initialCoin)
