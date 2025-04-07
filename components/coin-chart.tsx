@@ -102,7 +102,8 @@ export function Coin() {
     <div className="w-full flex flex-col bg-background">
       {/* Header */}
       <div className="p-4 border-b">
-        <div className="container mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="w-full flex justify-between items-center">
+          {/* Left side - Coin info */}
           <div className="flex items-center gap-3">
             {selectedCoinData?.image && (
               <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-muted flex items-center justify-center">
@@ -123,9 +124,11 @@ export function Coin() {
               <p className="text-muted-foreground">Track cryptocurrency price movements</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <Select value={selectedCoin} onValueChange={handleCoinChange} className="w-full sm:w-[200px]">
-              <SelectTrigger className="w-full">
+
+          {/* Right side - Controls */}
+          <div className="flex items-center gap-2">
+            <Select value={selectedCoin} onValueChange={handleCoinChange}>
+              <SelectTrigger className="w-[130px]">
                 <SelectValue>
                   {selectedCoinData && (
                     <div className="flex items-center gap-2">
@@ -159,8 +162,8 @@ export function Coin() {
                 ))}
               </SelectContent>
             </Select>
-            <Select value={timeRange} onValueChange={setTimeRange} className="w-full sm:w-[120px]">
-              <SelectTrigger>
+            <Select value={timeRange} onValueChange={setTimeRange}>
+              <SelectTrigger className="w-[110px]">
                 <SelectValue placeholder="Time Range" />
               </SelectTrigger>
               <SelectContent>
@@ -233,7 +236,8 @@ export function Coin() {
 
       {/* Footer */}
       <div className="p-4 border-t">
-        <div className="container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="w-full flex justify-between items-center">
+          {/* Left side - Trending info */}
           <div className="grid gap-1">
             <div className="flex items-center gap-2 font-medium leading-none">
               {priceChange.isPositive ? (
@@ -252,6 +256,8 @@ export function Coin() {
               Current price: {formatCurrency(currentPrice)}
             </div>
           </div>
+
+          {/* Right side - Last updated */}
           <div className="text-sm text-muted-foreground">Last updated: {new Date().toLocaleTimeString()}</div>
         </div>
       </div>

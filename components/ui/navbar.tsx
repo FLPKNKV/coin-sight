@@ -91,6 +91,13 @@ const Navbar1 = ({
 
           {/* Right: Login, Signup, Theme Toggle */}
           <div className="flex items-center gap-2 justify-end">
+
+            <Button asChild variant="outline" size="sm">
+              <a href={auth.login.url}>{auth.login.title}</a>
+            </Button>
+            <Button asChild size="sm">
+              <a href={auth.signup.url}>{auth.signup.title}</a>
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -105,14 +112,8 @@ const Navbar1 = ({
                 <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <Button asChild variant="outline" size="sm">
-              <a href={auth.login.url}>{auth.login.title}</a>
-            </Button>
-            <Button asChild size="sm">
-              <a href={auth.signup.url}>{auth.signup.title}</a>
-            </Button>
           </div>
+          
         </nav>
 
         {/* Mobile Menu */}

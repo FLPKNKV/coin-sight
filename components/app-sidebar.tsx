@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { useLoginStore } from "@/app/store/store"
+import Image from "next/image"
 
 const data = {
   navMain: [
@@ -159,6 +160,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Link href="/">
+              <img src="https://t4.ftcdn.net/jpg/08/39/85/45/360_F_839854575_58xUzlQjVZw6Mw3sngZnylmF2TCrdSVQ.jpg" alt="CoinSight" width={32} height={32} className="rounded-full" />
                 <span className="text-base font-semibold">CoinSight</span>
               </Link>
             </SidebarMenuButton>
