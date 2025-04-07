@@ -17,7 +17,7 @@ export function Coin() {
   const [priceChange, setPriceChange] = useState({ percentage: 0, isPositive: true })
   const [currentPrice, setCurrentPrice] = useState(0)
   const [timeRange, setTimeRange] = useState("30")
-  const [selectedCoinData, setSelectedCoinData] = useState(null)
+  const [selectedCoinData, setSelectedCoinData] = useState<{ name: string; symbol: string; image?: string } | null>(null)
 
   const chartConfig = {
     price: {
