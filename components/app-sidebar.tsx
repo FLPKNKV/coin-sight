@@ -33,7 +33,6 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { useLoginStore } from "@/app/store/store"
-import Image from "next/image"
 
 const data = {
   navMain: [
